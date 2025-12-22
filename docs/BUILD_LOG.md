@@ -187,7 +187,7 @@ Proof screenshots (stored in screenshots/milestone-1/):
 
 - Full secure remote access workflow (passwordless richb login, root rejected instantly with no prompts, MagicDNS ping):  
   ![SSH hardening and MagicDNS proof](screenshots/milestone-1/06-ssh-hardening-and-magicdns.png)
-
+  
 With all this in place, Milestone 1 is officially complete — stable nested Proxmox host, true 24/7 remote access, hardened security, and full documentation with proof.
 
 On to Milestone 2: Rocky Linux 9 cloud-init template.
