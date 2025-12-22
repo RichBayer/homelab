@@ -151,6 +151,44 @@ Current Status (December 15 2025)
   - Best-practice user workflow: richb + sudo for all work
   - Direct root SSH login disabled
   - Windows power/sleep set to Never
-- Ready to proceed to Milestone 2: Rocky Linux 9 cloud-init template creation.
 
+Phase 6: Final Hardening and Milestone 1 Completion (December 22, 2025)
+
+Over the past week I focused on polishing Milestone 1 and pushing the security and usability as far as practical for a homelab.
+
+What got done:
+- Confirmed rock-solid 24/7 remote access via Tailscale from the Yoga laptop (connects automatically) and even quick mobile checks with Termius on the phone
+- Finished full enterprise-grade SSH hardening:
+  - Passwordless key-based login as the non-root richb user (with full copy-paste working in terminals)
+  - Direct root SSH completely blocked (PermitRootLogin no)
+  - Disabled password authentication entirely (PasswordAuthentication no, ChallengeResponseAuthentication no, KbdInteractiveAuthentication no) — now true key-only access only
+  - Added extra protection by making /etc/resolv.conf immutable with chattr +i (defense-in-depth against any accidental overwrites)
+- Cleaned up the Proxmox web dashboard: disabled the enterprise and ceph-enterprise repositories so the repeating task errors and subscription warnings are gone (using the standard no-subscription repo — normal for homelabs)
+- Took a complete set of screenshots to prove everything works end-to-end
+
+These steps bring the setup to real production-level security while keeping it easy to work with every day. A lot of this directly ties into CompTIA Linux+ material around secure SSH configuration, user management, and network troubleshooting.
+
+Proof screenshots (stored in screenshots/milestone-1/):
+
+- VMware Workstation Pro VM settings (nested virtualization, resource allocation, 1 TB SATA raw passthrough):  
+  ![VMware Proxmox VM settings](screenshots/milestone-1/01-vmware-proxmox-vm-settings.png)
+
+- Proxmox welcome console inside VMware:  
+  ![Proxmox console in VMware](screenshots/milestone-1/02-proxmox-console-in-vmware.png)
+
+- Clean Proxmox web dashboard after repo fixes:  
+  ![Proxmox web dashboard](screenshots/milestone-1/03-proxmox-web-dashboard.png)
+
+- Combined Tailscale status and service health:  
+  ![Tailscale combined status](screenshots/milestone-1/04-tailscale-combined.png)
+
+- resolv.conf showing Tailscale MagicDNS and the immutable flag:  
+  ![resolv.conf immutable](screenshots/milestone-1/05-resolv-conf-immutable.png)
+
+- Full secure remote access workflow (passwordless richb login, root rejected instantly with no prompts, MagicDNS ping):  
+  ![SSH hardening and MagicDNS proof](screenshots/milestone-1/06-ssh-hardening-and-magicdns.png)
+
+With all this in place, Milestone 1 is officially complete — stable nested Proxmox host, true 24/7 remote access, hardened security, and full documentation with proof.
+
+On to Milestone 2: Rocky Linux 9 cloud-init template.
 This log will continue to be updated as each milestone is completed.
