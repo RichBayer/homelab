@@ -1,38 +1,42 @@
-# Enterprise Homelab Portfolio - Rich Bayer
+# Homelab Portfolio – Rich Bayer
 
-Former military helicopter mechanic transitioning to **Junior Linux SysAdmin / Cloud Support**.
+Former military helicopter mechanic transitioning into IT.  
+Goal: Pass CompTIA Linux+ by late February 2026 and land a remote junior Linux/sysadmin or cloud support role ($55–75k) by May 2026.  
+This public repo is built to showcase real, hands-on work that gets interviews.
 
-### Goals
-- Pass CompTIA Linux+ by end of February 2026
-- Land remote junior role ($55k–$75k) by May 2026
-- Build a public GitHub portfolio that forces interviews
+Hardware
+- Main host: Lenovo Legion (Windows 11)  
+  Ryzen 7 5800X, 32 GB RAM, RTX 3060  
+  Storage: 256 GB NVMe (boot), 2 TB NVMe, 1 TB SATA SSD (VMs), 4 TB USB (backups)
+- Daily driver: Lenovo Yoga laptop – used for remote Tailscale access
 
-### Hardware
-- **Lenovo Legion** (Windows 11 host): Ryzen 7 5800X, 32GB RAM, RTX 3060
-  - Storage: 256GB NVMe (boot), 2TB NVMe (games/files), 1TB SATA SSD (VM storage), 4TB USB (backups)
-- **Lenovo Yoga** (daily driver): Tailscale remote access
+Architecture (decided Dec 12 2025)
+Ditched the original bare-metal dual-boot idea. Everything now runs as a single nested Proxmox VE 8.3 VM under VMware Workstation Pro on the Windows host.
 
-### Architecture Decision (Dec 12 2025)
-Abandoned bare-metal dual-boot → Entire lab runs as **nested Proxmox VE VM** under VMware Workstation Pro on Windows host.
+Why this way?
+- Family keeps uninterrupted Windows access
+- Full copy-paste between host and VMs
+- True 24/7 remote access via Tailscale
+- No boot conflicts or hardware passthrough headaches
+- Near bare-metal performance with nested virtualization
 
-**Reasons**: Family uninterrupted Windows access, copy-paste workflow, 24/7 Tailscale remote, zero boot issues, near-bare-metal performance.
+Planned Milestones
 
-### Planned Milestones
-| #  | Component                              | Purpose                                      |
-|----|----------------------------------------|----------------------------------------------|
-| 1  | Nested Proxmox + Tailscale             | 24/7 remote access (current)                 |
-| 2  | Rocky Linux 9 cloud-init template      | Fast, repeatable deployments                 |
-| 3  | Bastion LXC                            | Hardened, key-only SSH entry point           |
-| 4  | OPNsense firewall VM                   | Perimeter security + routing                 |
-| 5  | Pi-hole + Unbound + Samba LXC          | Network-wide DNS, ad-blocking, file sharing  |
-| 6  | Prometheus + Node Exporter + Grafana   | Full observability stack                     |
-| 7  | Rocky Linux Workstation VM             | Ansible control node                         |
-| 8  | Ansible playbooks                      | Idempotent configuration of everything       |
-| 9  | Daily backup script + rotation         | Disaster recovery to 4TB USB                 |
-| 10 | Final polish + Loom video + rebuild guide | One-click reproducible lab                |
-| 11 | Personal static portfolio website (Nginx) | Self-hosted resume/site with real traffic monitoring |
+1. Nested Proxmox + Tailscale – 24/7 remote access (complete Dec 22 2025)
+2. Rocky Linux 9 cloud-init template – fast, repeatable VM deployments
+3. Bastion LXC – hardened, key-only SSH jump host
+4. OPNsense firewall VM – perimeter security and routing
+5. Pi-hole + Unbound + Samba LXC – network-wide ad-blocking, recursive DNS, file sharing
+6. Prometheus + Node Exporter + Grafana – full monitoring and alerting
+7. Rocky Linux Workstation VM – dedicated Ansible control node
+8. Ansible playbooks – idempotent configuration of the entire lab
+9. Daily backup script + rotation – disaster recovery to 4 TB USB drive
+10. Final polish – Loom walkthrough video + one-click rebuild guide
+11. Personal static portfolio site (Nginx) – self-hosted resume with real traffic monitoring
 
-Detailed build log → [docs/BUILD_LOG.md](docs/BUILD_LOG.md)  
-Screenshots → [screenshots/](screenshots/)
+Detailed day-by-day build log → docs/BUILD_LOG.md  
+All screenshots → screenshots/  
 
-Methodical nightly commits guaranteed.
+I commit regularly (usually same or next day) so progress is transparent.
+
+Thanks for checking it out!
