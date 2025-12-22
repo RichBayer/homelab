@@ -168,7 +168,7 @@ What got done:
 
 These steps bring the setup to real production-level security while keeping it easy to work with every day. A lot of this directly ties into CompTIA Linux+ material around secure SSH configuration, user management, and network troubleshooting.
 
-Proof screenshots (stored in screenshots/milestone-1/):
+ Proof screenshots (stored in screenshots/milestone-1/):
 
 - VMware Workstation Pro VM settings (nested virtualization, resource allocation, 1 TB SATA raw passthrough):  
   ![VMware Proxmox VM settings](screenshots/milestone-1/01-vmware-proxmox-vm-settings.png)
@@ -186,8 +186,8 @@ Proof screenshots (stored in screenshots/milestone-1/):
   ![resolv.conf immutable](screenshots/milestone-1/05-resolv-conf-immutable.png)
 
 - Full secure remote access workflow (passwordless richb login, root rejected instantly with no prompts, MagicDNS ping):  
-  ![SSH hardening and MagicDNS proof](screenshots/milestone-1/06-ssh-hardening-and-magicdns.png)
-  
+  ![SSH hardening and MagicDNS proof](screenshots/milestone-1/06-ssh-hardening-and-magicdns.png) 
+
 With all this in place, Milestone 1 is officially complete — stable nested Proxmox host, true 24/7 remote access, hardened security, and full documentation with proof.
 
 On to Milestone 2: Rocky Linux 9 cloud-init template.
