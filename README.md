@@ -1,42 +1,155 @@
-# Homelab Portfolio – Rich Bayer
+# Homelab – Rich Bayer
 
-Former military helicopter mechanic transitioning into IT.  
-Goal: Pass CompTIA Linux+ by late February 2026 and land a remote junior Linux/sysadmin or cloud support role ($55–75k) by May 2026.  
-This public repo is built to showcase real, hands-on work that gets interviews.
+Former U.S. Army helicopter mechanic transitioning into IT, focused on Linux systems administration and cloud infrastructure.
 
-Hardware
-- Main host: Lenovo Legion (Windows 11)  
-  Ryzen 7 5800X, 32 GB RAM, RTX 3060  
-  Storage: 256 GB NVMe (boot), 2 TB NVMe, 1 TB SATA SSD (VMs), 4 TB USB (backups)
-- Daily driver: Lenovo Yoga laptop – used for remote Tailscale access
+This repo documents a hands-on homelab I’m building to develop real-world skills for a Linux/sysadmin role. The goal isn’t just to stand things up, but to understand how systems behave, break, and get fixed.
 
-Architecture (decided Dec 12 2025)
-Ditched the original bare-metal dual-boot idea. Everything now runs as a single nested Proxmox VE 8.3 VM under VMware Workstation Pro on the Windows host.
+---
 
-Why this way?
-- Family keeps uninterrupted Windows access
-- Full copy-paste between host and VMs
-- True 24/7 remote access via Tailscale
-- No boot conflicts or hardware passthrough headaches
-- Near bare-metal performance with nested virtualization
+## 🎯 Career Direction
 
-Planned Milestones
+- CompTIA Linux+ (XK0-006)
+- Junior Linux / Sysadmin / Cloud Support role
+- Target: $75k–$90k remote role
+- Timeline: 2026
 
-1. Nested Proxmox + Tailscale – 24/7 remote access (complete Dec 22 2025)
-2. Rocky Linux 9 cloud-init template – fast, repeatable VM deployments
-3. Bastion LXC – hardened, key-only SSH jump host
-4. OPNsense firewall VM – perimeter security and routing
-5. Pi-hole + Unbound + Samba LXC – network-wide ad-blocking, recursive DNS, file sharing
-6. Prometheus + Node Exporter + Grafana – full monitoring and alerting
-7. Rocky Linux Workstation VM – dedicated Ansible control node
-8. Ansible playbooks – idempotent configuration of the entire lab
-9. Daily backup script + rotation – disaster recovery to 4 TB USB drive
-10. Final polish – Loom walkthrough video + one-click rebuild guide
-11. Personal static portfolio site (Nginx) – self-hosted resume with real traffic monitoring
+---
 
-Detailed day-by-day build log → docs/BUILD_LOG.md  
-All screenshots → screenshots/  
+## 🧠 What This Lab Is
 
-I commit regularly (usually same or next day) so progress is transparent.
+This isn’t a checklist lab.
 
-Thanks for checking it out!
+The idea is to simulate a small company environment where I can:
+
+- administer Linux systems  
+- troubleshoot real problems  
+- manage users, permissions, and services  
+- deploy and maintain applications  
+- build and automate infrastructure  
+- document everything as I go  
+
+The focus is on learning how systems actually behave, not just getting them running.
+
+---
+
+## 🏗️ Current Architecture
+
+- Windows 11 host (Lenovo Legion)
+- VMware Workstation Pro
+- Proxmox VE 8.3 (nested)
+- Tailscale (MagicDNS + SSH)
+
+This setup lets me:
+
+- keep Windows available at all times  
+- access the lab remotely from anywhere  
+- work directly inside the environment without rebooting  
+- experiment freely without risking my main system  
+
+---
+
+## 💻 Hardware
+
+- Ryzen 7 5800X (16 threads)
+- 32 GB RAM
+- RTX 3060 (12 GB)
+
+Storage:
+- 256 GB NVMe (Windows boot)
+- 2 TB NVMe (personal files)
+- 1 TB SATA SSD (lab)
+- 4 TB external HDD (backups)
+
+---
+
+## 🚀 Direction / Roadmap
+
+The lab is being built in stages, with each step documented.
+
+Current focus:
+
+- stable Proxmox base
+- secure remote access (Tailscale + SSH)
+- clean, repeatable workflow
+
+Next steps:
+
+- Rocky Linux server (first real workload)
+- web server + database
+- internal file server (Samba, users, permissions)
+- monitoring (Prometheus + Grafana)
+- Ansible automation
+- backup + recovery
+- self-hosted portfolio site
+
+---
+
+## 📂 Repo Layout
+
+docs/
+  build-logs/       → what was done and when  
+  architecture/     → design decisions and layout  
+  procedures/       → repeatable steps  
+  troubleshooting/  → problems and fixes  
+  screenshots/      → proof and visuals  
+
+scripts/            → automation (later)  
+prompts/            → workflow continuity  
+
+---
+
+## 📘 Documentation
+
+Build log:
+- docs/build-logs/000_initial_build.md
+
+Screenshots:
+- docs/screenshots/milestone-1/
+
+I try to commit regularly so progress is visible and not reconstructed later.
+
+---
+
+## 🧪 What This Shows
+
+- Linux administration fundamentals  
+- SSH hardening and secure access  
+- network troubleshooting across multiple layers  
+- virtualization and system design  
+- ability to track down and fix real issues  
+- disciplined documentation  
+
+---
+
+## 🔁 Operational Simulation (Planned)
+
+This lab isn’t just about building systems—it’s about operating them.
+
+Planned additions:
+
+- intentional service failures  
+- simulated “user problems” (site down, login issues, etc.)  
+- troubleshooting using logs and system state  
+- repeatable failure scenarios  
+
+Longer term, I want to introduce a simple system that can:
+
+- inject failures  
+- simulate tickets  
+- create real troubleshooting scenarios on demand  
+
+The goal is to get comfortable diagnosing problems, not just configuring systems.
+
+---
+
+## 📬 Current State
+
+The base platform is built, secured, and accessible remotely.
+
+Next phase is adding real services and turning this into a working environment instead of just infrastructure.
+
+---
+
+## 📬 Notes
+
+This is an evolving project. I’m building it out step-by-step and documenting everything along the way.
