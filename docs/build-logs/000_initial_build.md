@@ -1,22 +1,8 @@
 # Homelab Build Log
 
-## Status
+## Project Goal
 
-Milestone 1 complete as of December 22, 2025.
-
-This document covers the initial build of the homelab environment, including:
-
-- hardware preparation  
-- Proxmox installation (nested)  
-- networking setup  
-- Tailscale integration  
-- SSH hardening and access control  
-
-Later phases (services, monitoring, automation, etc.) will be documented in future build logs.
-
----
-
-## Project GoalBuild an enterprise-grade nested Proxmox homelab for CompTIA Linux+ practice, Ansible automation, and a standout GitHub portfolio demonstrating real-world sysadmin skills.
+Build an enterprise-grade nested Proxmox homelab for CompTIA Linux+ practice, Ansible automation, and a portfolio that demonstrates real-world sysadmin skills.
 
 ---
 
@@ -24,57 +10,54 @@ Later phases (services, monitoring, automation, etc.) will be documented in futu
 
 - CPU: AMD Ryzen 7 5800X (16 threads)
 - RAM: 32 GB
-- GPU: RTX 3060 12 GB
+- GPU: RTX 3060 (12 GB)
 - Motherboard: Lenovo 3716 (B550 chipset)
 
 ### Storage (as of December 2025)
 - 256 GB NVMe: Windows 11 boot
-- 1 TB SATA SSD: Dedicated lab storage
-- 2 TB Samsung 990 PRO NVMe: Windows files/media
-- 4 TB USB HDD: Backups and ISOs
+- 2 TB NVMe: personal files and media
+- 1 TB SATA SSD: dedicated homelab storage
+- 4 TB USB HDD: backups and ISO storage
 
 ---
 
 ## Remote Access Devices
 
-- Lenovo Yoga laptop (Tailscale)
-- Galaxy S24 (Termius SSH)
+- Lenovo Yoga laptop (Tailscale access)
+- Galaxy S24 (Termius SSH client)
 
 ---
 
 ## Phase 0 – Hardware Prep (Dec 5, 2025)
 
-Freed the 1 TB SATA SSD for lab use:
+Prepared the system for homelab use:
 
-- Installed new 2 TB NVMe
-- Migrated personal data
-- Wiped SATA SSD for homelab
+- Installed new 2 TB NVMe drive
+- Migrated personal files off the 1 TB SATA SSD
+- Wiped the SATA SSD to dedicate it fully to lab storage
 
 ---
 
-## Phase 1 – Bare-Metal Attempts (Abandoned)
+## Phase 1 – Bare-Metal Attempt (Abandoned)
 
-Tried dual-boot Proxmox.
+Initial plan was to install Proxmox directly on hardware using a dual-boot setup.
 
 ### Issues Encountered
-- USB install networking failures
-- Installer selecting wrong disks (risk to Windows NVMe)
-- Boot conflicts and instability
-- No remote access when Windows was running
+
+- Inconsistent network detection during install
+- Risk of selecting the wrong disk during installation
+- Bootloader conflicts with Windows
+- No way to access the lab while booted into Windows
 
 ### Decision (Dec 12, 2025)
 
-Pivoted to **nested Proxmox in VMware**.
-
-### Reasons
-- Windows always available for family use
-- Full remote access via Tailscale
-- No bootloader conflicts
-- Near bare-metal performance with nested virtualization
+Pivoted to a nested virtualization approach.
 
 ---
 
 ## Phase 2 – Nested Proxmox Setup (Dec 14, 2025)
+
+Created a Proxmox VM inside VMware Workstation Pro.
 
 ### VM Configuration
 
@@ -82,20 +65,22 @@ Pivoted to **nested Proxmox in VMware**.
 - Guest OS: Debian 12
 - 20 GB RAM
 - 8 vCPU
-- 100 GB disk (thin provisioned)
+- 100 GB virtual disk (thin provisioned)
 - Raw passthrough of 1 TB SATA SSD
-- Bridged networking (initially)
+- Bridged networking
 - Nested virtualization enabled
 
-### Install Details
+### Installation
 
-- Static IP: 192.168.1.149/24
-- Gateway: 192.168.1.1
+- Installed Proxmox VE 8.3
+- Configured static IP:
+  - 192.168.1.149/24
+  - Gateway: 192.168.1.1
 
-### Post-Install
+### Initial Access
 
-- Proxmox web UI available at: https://192.168.1.149:8006
-- Passwordless root SSH configured using existing ed25519 key
+- Web UI: https://192.168.1.149:8006
+- Root SSH configured using existing ed25519 key
 
 ---
 
@@ -104,15 +89,17 @@ Pivoted to **nested Proxmox in VMware**.
 ### Problems
 
 - DNS resolution failures (`Temporary failure in name resolution`)
-- `tailscaled` service missing
+- `tailscaled` service not running
 
 ### Root Cause
 
-- Tailscale was installed using static binaries
-- No systemd service → no auto-start
-- DNS pointed to Tailscale (100.100.100.100) but service was not running
+- Tailscale installed using static binaries
+- No systemd service → no automatic startup
+- DNS pointing to Tailscale (100.100.100.100) without the service running
 
 ### Temporary Fix
+
+Manually set DNS:
 
     echo "nameserver 8.8.8.8" > /etc/resolv.conf
     echo "nameserver 1.1.1.1" >> /etc/resolv.conf
@@ -127,25 +114,28 @@ Pivoted to **nested Proxmox in VMware**.
     usermod -aG sudo richb
     apt install sudo
 
-- Adopted non-root workflow (`richb` + sudo)
+- Transitioned to non-root workflow using `richb` + sudo
 
 ### SSH Hardening
 
 - Disabled root login:
   PermitRootLogin no
 
-- Restarted SSH:
+- Restarted SSH service:
+
     systemctl restart ssh
 
-### DNS Protection (Later Adjusted)
+### DNS Protection (Temporary Measure)
 
     chattr +i /etc/resolv.conf
 
-Note: This prevented unwanted overwrites but later caused issues when network changes required dynamic DNS updates.
+This prevented DNS changes but was later identified as too rigid for a dynamic lab environment.
 
 ---
 
-## Phase 5 – Permanent Tailscale Implementation (Dec 14–15)
+## Phase 5 – Tailscale Proper Installation (Dec 14–15)
+
+Replaced static binary install with official Debian package.
 
 ### Install
 
@@ -161,34 +151,36 @@ Note: This prevented unwanted overwrites but later caused issues when network ch
 ### Results
 
 - systemd service created and enabled
-- Magic DNS functional
-- Node reachable via Tailscale
+- Magic DNS functioning
+- Node reachable remotely via Tailscale
 
 ---
 
 ## Remote Access Verification
 
-- Windows host (local + remote)
-- Lenovo Yoga laptop (SSH + web UI)
+Confirmed access from:
+
+- Windows host (local and remote)
+- Lenovo Yoga laptop
 - Galaxy S24 via Termius SSH
 
 ---
 
-## Phase 6 – Final Hardening and Milestone 1 Completion (Dec 22, 2025)
+## Phase 6 – Final Hardening and Stabilization (Dec 22, 2025)
 
 ### Completed Work
 
-- Full key-only SSH authentication
-- Disabled password authentication completely
-- Root SSH login fully blocked
-- Cleaned Proxmox repositories (removed enterprise warnings)
+- Enforced key-only SSH authentication
+- Disabled password authentication
+- Fully disabled root SSH login
+- Cleaned Proxmox repositories (removed enterprise repo warnings)
 - Verified stable 24/7 remote access via Tailscale
 
 ---
 
 ## Proof Screenshots
 
-### VMware Workstation VM Settings
+### VMware VM Configuration
 ![VMware Proxmox VM settings](../screenshots/milestone-1/01-vmware-proxmox-vm-settings.png)
 
 ### Proxmox Console (VMware)
@@ -208,18 +200,15 @@ Note: This prevented unwanted overwrites but later caused issues when network ch
 
 ---
 
-## Current Status (Dec 22, 2025)
+## Current State
 
 - Nested Proxmox VE 8.3 fully operational
-- Tailscale installed with automatic startup
-- Secure SSH workflow in place (key-based only)
-- Remote access confirmed across all devices
-- Documentation and screenshots complete
+- Secure SSH configuration in place (key-based only)
+- Tailscale providing stable remote access
+- Base platform ready for service deployment
 
 ---
 
 ## Next Step
 
-👉 Milestone 2: Rocky Linux 9 cloud-init template
-
-This log will continue as the lab evolves.
+Rocky Linux 9 VM (first workload server)
