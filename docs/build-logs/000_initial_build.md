@@ -1,7 +1,22 @@
 # Homelab Build Log
 
-## Project Goal
-Build an enterprise-grade nested Proxmox homelab for CompTIA Linux+ practice, Ansible automation, and a standout GitHub portfolio demonstrating real-world sysadmin skills.
+## Status
+
+Milestone 1 complete as of December 22, 2025.
+
+This document covers the initial build of the homelab environment, including:
+
+- hardware preparation  
+- Proxmox installation (nested)  
+- networking setup  
+- Tailscale integration  
+- SSH hardening and access control  
+
+Later phases (services, monitoring, automation, etc.) will be documented in future build logs.
+
+---
+
+## Project GoalBuild an enterprise-grade nested Proxmox homelab for CompTIA Linux+ practice, Ansible automation, and a standout GitHub portfolio demonstrating real-world sysadmin skills.
 
 ---
 
